@@ -1,0 +1,62 @@
+\documentclass{template/tp}
+\usepackage[utf8x]{inputenc}
+
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{wasysym} %smiley
+\usepackage{mathastext} % math as standfard text : units are respecting typography conventions.
+\usepackage{hyperref}% hyperliens
+\usepackage{tikz}
+\usetikzlibrary{babel,calc,angles,positioning,intersections,quotes,decorations.markings}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage[]{circuitikz}
+\usepackage{textcomp}
+\usepackage{minted}
+\usepackage[long]{datetime}
+\usepackage{gensymb} % \ohm, celsius
+\usepackage{framed}
+\usepackage{pdfpages}
+\usepackage{todo}
+\usepackage{paralist}
+\usepackage{multicol}
+\usepackage{expl3}
+\usepackage{xfrac}
+\ExplSyntaxOn
+\cs_set_eq:NN \fpeval \fp_eval:n
+\ExplSyntaxOff
+
+
+
+\usepackage{fancyhdr} %en-tête
+\usepackage{qrcode}
+
+% \langexam{frenchb}
+
+
+\newboolean{koriG}
+\ifx\koriG\undefined
+\correction{false}
+\else
+\correction{true}
+\fi
+
+\author{Renaud Theunissen, Youssef Agram}
+
+%Corrigé ou non?
+%\correction{true}
+\correction{false}
+
+% Quel TP en pdf output?
+%\input{LABO1A/labo1A}
+%\input{TP1/tp1.tex}
+%\input{TP2/tp2.tex}
+%\input{TP3/tp3.tex}
+%\input{TP4/tp4.tex}
+%\input{TP5/tp5.tex}
+%\input{TpQEx_Champs/TpQEx_Champs}
+\input{TpQEx_Circuits/TpQEx_Circuits}

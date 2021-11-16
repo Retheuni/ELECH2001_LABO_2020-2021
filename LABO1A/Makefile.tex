@@ -1,0 +1,16 @@
+all: tp correction
+	echo "done"
+
+
+tp: *.tex
+	pdflatex -shell-escape -jobname="labo1A" labo1A.tex
+	pdflatex -shell-escape -jobname="labo1A" labo1A.tex
+
+
+correction: *.tex
+	pdflatex -shell-escape -jobname=labo1A_correction "\def\koriG{} \input{=labo1A.tex}"
+	pdflatex -shell-escape -jobname=labo1A_correction "\def\koriG{} \input{=labo1A.tex}"
+
+clean:
+	rm -f labo1A_correction.pdf rm labo1A.pdf
+	rm -f *.idx *.aux *.log *.nav *.out *.snm *.toc

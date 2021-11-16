@@ -1,0 +1,209 @@
+%% fancy header & foot
+\pagestyle{fancy}
+\lhead{[ELEC-H-2001] Électricité\\ LABO \no 2 : Séance 2~: Les circuits réactifs en transitoire \ifthenelse{\boolean{corrige}}{~-- corrigé}{}}
+\rhead{v1.0.0\\ page \thepage}
+\cfoot{}
+%%
+\usepackage{placeins}
+\pdfinfo{
+/Author (Renaud Theunissen & Youssef Agram, ULB -- BEAMS-EE)
+/Title (Laboratoire 2 ELEC-H-2001, Séance 2~: Les circuits réactifs en transitoire)
+/ModDate (D:\pdfdate)
+}
+
+\hypersetup{
+pdftitle={Labo 2 [ELEC-H-2001] Électricité : LABO 2~: Les circuits réactifs en transitoire},
+pdfauthor={Renaud Theunissen & Youssef Agram, ©2020 ULB - BEAMS-EE},
+}
+
+
+\setlength{\parskip}{0.5cm plus4mm minus3mm} %espacement entre §
+\setlength{\parindent}{0pt}
+
+
+
+\begin{document}
+
+\tptitle{}{Séance 2~: Les circuits réactifs en transitoire}
+Le but de cette séance est de vous amener à expliquer et comprendre les phénomènes transitoires de circuits réactifs (à l'aide d'une onde carré à basse fréquence).
+Mesurer les comportements des dipôles réactifs soumis à certaines sollicitations. 
+Cette séance nous permet également de tenir compte des imperfections des dipôles que nous utilisons par rapport au cas idéal que nous traitons dans les exercices.
+
+\section{Pré-requis}
+Avant la séance, vous aurez lu attentivement l'énoncé de la manipulation. Vous aurez par ailleurs relu les chapitres et sections suivants:
+
+\begin{itemize}
+	\item Chapitre 2 - Dipôles idéaux
+	\begin{itemize}
+	    \item Section 2.2 - Dipôles réels >< Dipôles idéaux
+	    \item Section 2.3 - Charges idéales : trois effets physiques
+	    \item Section 2.6 - Sources idéales
+	\end{itemize}
+	\item Chapitre 5 - Résoudre un circuit réactif dans le domaine temporel
+	\item Chapitre 6 - Résoudre un circuit réactif dans le domaine temporel
+	\begin{itemize}
+	    \item Section 6.1 - Éléments réactifs : Rappels 
+		\item Section 6.2 - Analyse temporelle du circuit RC (source en échelons)
+		\item Section 6.3 - Analyse temporelle du circuit RL (source en échelons)
+		\item Section 6.5 - Analyse temporelle du circuit RL (source sinusoïdale avec échelon)
+		\item Section 6.6 - Analyse temporelle du circuit RLC
+	\end{itemize}
+
+\end{itemize}
+
+\vspace{5pt}
+
+\newpage
+\section{Préliminaire théorique}
+Soit le circuit ci-dessous alimenté par une source de tension continue $V_S$ qui délivre un courant $I$. En tenant compte de l'existence d'un interrupteur représenté par $T_0$ qui sera fermé au temps $t_0 = 0s$, de $R$ une résistance et $L$ une inductance tous deux de valeurs quelconques :
+\begin{center}
+\begin{circuitikz} \draw
+    (0,0)	to[battery1, v=$V_S$, invert, i^>=$I$]		
+    (0,4)	to[closing switch, l=$T_0$]		
+    (2,4)	to[R, l=$R$]					
+    (4,4)	to[L, l=$L$, v_<=$v_L$]					(4,0)--(0,0) node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+\Question{
+\newline
+\begin{enumerate}
+    \item Déterminez l'expression analytique de $v_L(t)$ pour tous temps $t\in [T_{-\infty}; T_1]$ avec $T_1 >> T_0$.
+    \item Déterminez la constante de temps $\tau$ pour ce circuit?
+    \item Comment affecterai l'ajout d'inductances en séries sur la constante de temps $\tau$?
+\end{enumerate}
+}
+{%C
+}
+
+\newpage
+\section{Partie pratique}
+\subsection{Réflexion analytique et physique}
+Nous désirons observer des phénomènes transitoires. 
+\Question{
+\newline
+\begin{enumerate}
+    \item Quels types de dipôles sont strictement nécessaire pour observer de tels phénomènes? Justifiez à l'aide de la loi du/des dipôle(s) cette affirmation.
+    \item Sans interrupteur, comment pourrions-nous observer un effet similaire au régime transitoire pour le circuit suivant :
+    \begin{center}
+    \begin{circuitikz} \draw
+        (0,0)	to[battery1, v=$V_S$, invert, i^>=$I$]		
+        (0,4)	to[closing switch, l=$T_0$]		
+        (2,4)	to[R, l=$R$]					
+        (4,4)	to[L, l=$L$, v_<=$v_L$]				(4,0)--(0,0) node[ground]{}
+        ;
+    \end{circuitikz}
+    \end{center}
+\end{enumerate}
+}
+{%C
+}
+\newpage
+\subsection{Réflexion analytique et physique - Circuit RL}
+Considérons le circuit suivant :
+\begin{center}
+\begin{circuitikz} \draw
+        (0,0)	to[square voltage source, v=$v_G(t)$, i^>=$i(t)$]		
+        (0,4)	to[R, l=$R_G$]
+        (4,4)	to[L, l=$L$]	
+        (4,0)   to[R, l=$R_e$] 
+        (0,0)   node[ground]{}
+        ;
+\end{circuitikz}
+\end{center}
+\Question{
+\newline
+\begin{enumerate}
+    \item Après combien de temps le courant dans le circuit aura atteint 95\% de sa valeur maximale?
+    \item Comment régleriez-vous $v_G(t)$ pour que le régime permanent ne s'établisse jamais dans ce circuit? 
+\end{enumerate}
+}
+{%C
+}
+\newpage
+\subsection{Mesures de signaux et interprétation - circuit RL}
+Réalisez le circuit suivant sur votre ProtoBoard :
+\begin{center}
+\begin{circuitikz} \draw
+        (0,0)	to[voltage source, v=$v_G(t)$, i^>=$i(t)$]		
+        (0,4)	to[R, l=$R_G$]					
+        (4,4)	to[L, l=$L$, v_<=$v_L$]	
+        (4,0)   to[R, l=$R_e$] 
+        (0,0)   node[ground]{}
+        ;
+\end{circuitikz}
+\end{center}
+Avec :
+\begin{itemize}
+    \item $v_G(t)$ une source de tension 
+    \item $R_G = 600\Omega$ la résistance de sortie du générateur du PicoScope
+    \item $L = 220$µH l'inductance de votre kit de laboratoire
+    \item $R_e = 200\Omega$ la résistance étalon
+\end{itemize}
+\Question{
+\newline
+\begin{enumerate}
+    \item Paramétrez la source de tension de votre générateur pour obtenir une situation similaire à une source de tension continue suivie d'un interrupteur.
+    \item Mesurez le temps nécessaire à l'atténuation du régime transitoire de ce circuit.
+    \item Comparez cette valeur avec le constante de temps du circuit. Quelle conclusion pouvez-vous en tirer?
+    \item Pour une source de fréquence deux fois moins importante, pensez-vous que constante de temps aura une valeur plus basse? Justifiez analytiquement.
+\end{enumerate}
+
+}
+{%C
+}
+\newpage
+\subsection{Réflexion analytique et physique - Circuit RC}
+Considérons le circuit suivant :
+\begin{center}
+\begin{circuitikz} \draw
+        (0,0)	to[square voltage source, v=$v_G(t)$, i^>=$i(t)$]		
+        (0,4)	to[R, l=$R_G$]
+        (4,4)	to[C, l=$C_i$]	
+        (4,0)   to[R, l=$R_e$] 
+        (0,0)   node[ground]{}
+        ;
+\end{circuitikz}
+\end{center}
+\Question{
+\newline
+\begin{enumerate}
+    \item Après combien de temps le courant dans le circuit aura atteint 63\% de sa valeur maximale?
+    \item Comment régleriez-vous $v_G(t)$ pour que le régime permanent ne s'établisse jamais dans ce circuit? 
+\end{enumerate}
+}
+{%C
+}
+\newpage
+\subsection{Mesures de signaux et interprétation - circuit RC}
+Réalisez le circuit suivant sur votre ProtoBoard :
+\begin{center}
+\begin{circuitikz} \draw
+        (0,0)	to[voltage source, v=$v_G(t)$, i^>=$i(t)$]		
+        (0,4)	to[R, l=$R_G$]					
+        (4,4)	to[C, l=$C_i$, v_<=$v_C$]	
+        (4,0)   to[R, l=$R_e$] 
+        (0,0)   node[ground]{}
+        ;
+\end{circuitikz}
+\end{center}
+Avec :
+\begin{itemize}
+    \item $v_G(t)$ une source de tension 
+    \item $R_G = 600\Omega$ la résistance de sortie du générateur du PicoScope
+    \item $C_i = 0,1$ µF le condensateur de votre kit de laboratoire
+    \item $R_e = 200\Omega$ la résistance étalon
+\end{itemize}
+\Question{
+\newline
+\begin{enumerate}
+    \item Paramétrez la source de tension de votre générateur pour obtenir une situation similaire à une source de tension continue suivie d'un interrupteur.
+    \item Mesurez le temps nécessaire à l'atténuation du régime transitoire de ce circuit.
+    \item Comparez cette valeur avec le constante de temps du circuit. Quelle conclusion pouvez-vous en tirer?
+    \item Si la source de tension $v_G(t)$ a une amplitude deux fois plus importante, pensez-vous que cela augmentera la valeur de la constante de temps? Justifiez analytiquement.
+\end{enumerate}
+}
+{%C
+}
+
+\end{document}

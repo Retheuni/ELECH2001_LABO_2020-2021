@@ -1,0 +1,253 @@
+%% fancy header & foot
+\pagestyle{fancy}
+\lhead{[ELEC-H-2001] Électricité\\ LABO \no 3 : Théorème de Thévenin et adaptation d'impédance \ifthenelse{\boolean{corrige}}{~-- corrigé}{}}
+\rhead{v1.0.0\\ page \thepage}
+\cfoot{}
+%%
+
+\pdfinfo{
+/Author (Renaud Theunissen et Youssef Agram, ULB -- BEAMS-EE)
+/Title (Laboratoire 3 ELEC-H-2001, Théorème de Thévenin et adaptation d'impédance)
+/ModDate (D:\pdfdate)
+}
+
+\hypersetup{
+pdftitle={Labo 3 [ELEC-H-2001] Électricité : LABO 3 ELEC-H-2001, Théorème de Thévenin et adaptation d'impédance},
+pdfauthor={Renaud Theunissen et Youssef Agram, ©2020 ULB - BEAMS-EE},}
+
+\setlength{\parskip}{0.5cm plus4mm minus3mm} %espacement entre §
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+\long\def\nothx/*#1*/{}
+\tptitle{}{Séance 3~: Théorème de Thévenin et adaptation d'impédance}
+\section{But de la manipulation}
+L'objectif de cette dernière séance de laboratoire est de vous permettre d'aborder les équivalents de Thévenin et d'en tester l'efficacité ainsi que les limites.
+Vous serez également amené à utiliser à nouveau les critères d'adaptation d'impédance pour considérer les charges que nous pourrons ou non brancher aux circuits proposés.
+
+\section{Pré-requis}
+Avant la séance, vous aurez lu attentivement l'énoncé de la manipulation. Vous aurez par ailleurs relu les chapitres et sections suivants:
+\begin{itemize}
+	\item Chapitre 4 - Équivalence de Thévenin et adaptation d'impédance
+		\begin{itemize}
+		\item Section 4.1 - Circuit équivalents et théorèmes de Thévenin et Norton
+		\item Section 4.2 - Impédance d'entrée, impédance de sortie (et fem à vide)
+		\item Section 4.3 - Adaptation d'impédance
+		\end{itemize}
+	\item Chapitre 5 - Résoudre un circuit : procédure de base et accélérateurs
+		\begin{itemize}
+		\item Section 5.1.2 - Connexions série et parallèle
+			\begin{itemize}
+			\item Section 5.4 Illustration : Diviseur résistif (étendu aux impédances) 
+			\item Section 5.5 Équivalences série et parallèle
+			\item Section 5.6 Utilisation des théorèmes de Thévenin et Norton pour résoudre un circuit
+			\end{itemize}
+		\end{itemize}
+	\item Chapitre 7 - Résoudre un circuit réactif dans le domaine fréquentiel
+		\begin{itemize}
+		\item Section 7.3 - Phaseurs
+		\item Section 7.4 - Impédances et admittances
+		\end{itemize}
+\end{itemize}
+
+\vspace{5pt}
+
+\newpage
+
+\section{Préliminaire Théorique}
+\subsection{Équivalent de Thévenin et théorème de superposition}
+
+Soit le circuit suivant :
+
+\begin{center}
+\begin{circuitikz} \draw
+    (0,0)	to[battery1, v=$V_1$, invert, i^>=$I$]		
+    (0,5)	to[R, l=$R$]		
+    (2,5)	-- (2,4)--
+    (1,4)   to[R, l=$R$]
+    (1,2)--(3,2)
+            to[R, l_=$R$] (3,4)--(2,4)--(2,5)--
+    (5,5)   to[battery1, v=$V_2$, invert] 
+    (5,3)   to[R, l_=$R$] 
+    (5,1)--(4,1)
+        to[R, l=$R$] (2,1)--(2,0)
+        to[R, l_=$R$] (4,0)--(4,1)
+    (2,1)   to[R, l^=$R$] (0,1)--
+    (0,0) node[ground]{}
+    (2,2)--(2,1)
+    (2,4) to[open, v^<=$V_3$] (2,2)
+;
+\end{circuitikz}
+\end{center}
+\Question{
+\newline
+\begin{itemize}
+    \item Déterminez l'équivalent de Thévenin ($V_{Th}$ et $R_{Th}$) de ce circuit vu par la source $V_1$ en fonction de $R$, $V_2$ et $I$.
+    \item Déterminez la tension $V_3$ à l'aide du théorème de superposition.
+\end{itemize}
+}
+{%C
+}
+\newpage
+\section{Partie pratique}
+\subsection{Réflexion analytique et physique - Circuit résistif}
+Considérons le circuit suivant :
+\begin{center}
+\begin{circuitikz} \draw
+(0,0)   to[sinusoidal voltage source, v>=$v_G(t)$, invert, i^>=$i(t)$] 	(0,6)
+		to[R, l=$R_G$] (2,6)
+		to[R, l=$R$] (4,6)
+		(2,6)--(2,7)
+		to[R, l=$R$] (4,7)--(4,5)
+		to[R, l_=$R$] (2,5)--(2,6)
+		(4,6)--(5,6)--(5,7)
+		to[R, l=$R$] (7,7)--(7,5)
+		to[R, l_=$R$] (5,5)--(5,6)
+		(7,6)--(8,6)
+		to[generic, l=$R_{charge}$](8,0)--(0,0)
+		node[ground]{}	
+		node[ocirc] (A) at (8,6) {A}
+        node[ocirc] (B) at (8,0) {B}
+;
+\end{circuitikz}
+\end{center}
+\Question
+{%Question
+\newline
+\begin{enumerate}
+    \item Déterminez l'équivalent de Thévenin vu depuis $R_{charge}$ (entre les point A et B).
+    \item Pensez-vous que le type de source peut influencer l'équivalent de Thévenin de ce circuit?
+    \item Quelle devra être la valeur de $R_{charge}$ pour que la tension à ces bornes soit égale à 25\% de celle de $v_G$?
+\end{enumerate}
+}
+{%C
+}
+
+\newpage
+\subsection{Mesures de signaux et interprétation - Circuit résistif}
+
+Soit le circuit suivant avec :
+
+\begin{itemize}
+    \item $R_x$ qui est la mise en série de la résistance $R_{x_1}$ et $R_{x_2}$.
+    \item $R_i$ et $R_e$ qui ont été déterminées dans les séances précédentes.
+    \item La source de tension $v_G(t)$ est une source de 2V d'amplitude et de forme sinusoïde (la pulsation importe peu).
+\end{itemize}
+\begin{center}
+\begin{circuitikz} \draw
+(0,0)   to[sinusoidal voltage source, v>=$v_G(t)$, invert, i^>=$i(t)$] 	(0,6)
+		to[R, l=$R_G$] (2,6)
+		to[R, l=$R_i$] (4,6)
+		(2,6)--(2,7)
+		to[R, l=$R_x$] (4,7)--(4,5)
+		to[R, l_=$R_e$] (2,5)--(2,6)
+		(4,6)--(5,6)--(5,7)
+		to[R, l=$R_i$] (7,7)--(7,5)
+		to[R, l_=$R_i$] (5,5)--(5,6)
+		(7,6)--(8,6)
+		to[generic, l=$R_{charge}$](8,0)--(0,0)
+		node[ground]{}	
+		node[ocirc] (A) at (8,6) {A}
+        node[ocirc] (B) at (8,0) {B}
+;
+\end{circuitikz}
+\end{center}
+
+\Question {
+\newline
+\begin{enumerate}
+    \item Proposez une procédure pour déterminer la résistance $R_x$ et donnez sa valeur.
+    \item En utilisant les valeurs des résistances $R_i$ et $R_e$ trouvées précédemment ainsi que celle de $R_x$, déterminez l'équivalent de Thévenin du circuit proposé.
+    \item Quelle sera la tension appliquée sur $R_{charge}$ si cette dernière est égale à $200\Omega$ (donc $R_{charge}$=$R_e$)?
+    \item Proposez et tester un montage équivalent à ce dernier mais en utilisant qu'une seule résistance en plus de $R_G$.
+\end{enumerate}
+}
+{%C
+}
+\newpage
+\subsection{Réflexion analytique et physique - Circuit réactif}
+Soit le circuit suivant avec:
+\begin{itemize}
+    \item $R_G = 600\Omega$ la résistance de sortie du générateur.
+    \item $C_i = 0,1$µF, $C_j = 22$nF et $C_k = 4,7$nF.
+    \item La source de tension $v_G(t)$ est une source de 2V d'amplitude et de forme sinusoïde (la pulsation importe peu).
+\end{itemize}
+\begin{center}
+\begin{circuitikz} \draw
+(0,0)   to[sV, v>=$v_G(t)$] 	(0,4)
+		to[R, l_=$R_G$] (2,4)--(3,4)--(3,5)
+		to[C, l_=$C_i$] (5,5)--(5,4)
+(3,4)--(3,3)
+        to[C, l_=$C_k$] (5,3)--(5,4)
+        to[C, l_=$C_j$] (7,4)--(8,4)
+        to[generic, l=$R_{Charge}$] (8,0)--(0,0)
+        node[ground]{}
+        node[ocirc] (A) at (8,4) {A}
+        node[ocirc] (B) at (8,0) {B}
+;
+\end{circuitikz}
+\end{center}
+\Question
+{%Question
+\newline
+\begin{enumerate}
+    \item Déterminez l'équivalent de Thévenin vu depuis $R_{Charge}$ (entre les point A et B).
+    \item Si $R_{Charge}$ est égale à $R_e$, calculez sa différence de potentiel $V_{R_e}$ à partir de votre équivalent de Thévenin.
+    \item Si nous plaçons une inductance à la place de la charge, pour quelles fréquences (hautes ou basses) aurons nous une $v_{Charge}$ maximale? Justifiez physiquement.
+\end{enumerate}
+}
+{%C
+}
+
+%Pour l'année prochaine celle-ci!
+\newpage
+\subsection{Mesures de signaux et interprétation - Circuit réactif}
+Soit le circuit suivant avec :
+\begin{itemize}
+    \item $R_G = 600\Omega$ la résistance de sortie du générateur.
+    \item $C_i = 0,1$µF, $C_j = 22$nF et $C_k = 4,7$nF.
+    \item La source de tension $v_G(t)$ est une source de 2V d'amplitude et de forme sinusoïde à une fréquence de $100$ kHz.
+\end{itemize}
+\begin{center}
+\begin{circuitikz} \draw
+(0,0)   to[sV, v>=$v_G(t)$] 	(0,4)
+		to[R, l_=$R_G$] (2,4)--(3,4)--(3,5)
+		to[C, l_=$C_i$] (5,5)--(5,4)
+(3,4)--(3,3)
+        to[C, l_=$C_k$] (5,3)--(5,4)
+        to[C, l_=$C_j$] (7,4)--(8,4)
+        to[generic, l=$R_e$] (8,0)--(0,0)
+        node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+
+
+\Question
+{%Question
+\newline
+\begin{enumerate}
+    \item Vérifiez qu'avec l'équivalent de Thévenin que vous avez déterminé précédemment, vous mesurez une différence de potentiel $V_{R_e}$ attendue.
+    \item Obtiendriez-vous la même valeur si les condensateurs $C_i$ et $C_j$ étaient permutés comme proposé ci-dessous?
+    \begin{center}
+\begin{circuitikz} \draw
+(0,0)   to[sV, v>=$v_G(t)$] 	(0,4)
+		to[R, l_=$R_G$] (2,4)--(3,4)--(3,5)
+		to[C, l_=$C_j$] (5,5)--(5,4)
+(3,4)--(3,3)
+        to[C, l_=$C_k$] (5,3)--(5,4)
+        to[C, l_=$C_i$] (7,4)--(8,4)
+        to[generic, l=$R_e$] (8,0)--(0,0)
+        node[ground]{}
+;
+\end{circuitikz}
+\end{center}
+    \item En utilisant une fréquence de $50$kHz pour la source, quelle valeur obtenez-vous pour $V_{R_e}$? Justifiez en discutant la validité de l'équivalent de Thévenin entre ce cas et le précédent.
+    \item Pour quelle fréquence obtiendriez-vous la même valeur pour $V_{R_e}$ que dans le cas précédent? 
+\end{enumerate}
+}
+{%C
+}
+
+\end{document}
